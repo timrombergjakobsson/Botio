@@ -6,10 +6,19 @@ class Bot
 
 bot = Cinch::Bot.new do
     configure do |c|
-    c.server = "irc.quakenet.org" 
+    c.server = "irc.freenode.net" 
     c.nick     = "Botio"
-    c.channels = ["#ad09"]
+    c.reconnect = true
+    c.channels = ["#cinters"]
+    c.password = "access"
+    c.port = "6667"
   end
+
+
+def identify_nickserv
+  User("nickserv").send("identify %s %s" % [config[:username], config[:password]])
+end
+
 
   on :message, "hello" do | m |
     m.reply "Hello, #{m.user.nick}"
