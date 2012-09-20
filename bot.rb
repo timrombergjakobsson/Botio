@@ -1,5 +1,5 @@
 require 'cinch'
-
+File.join(File.dirname(__FILE__), 'google.rb')
 class Bot
   
   COMMANDS = {}
@@ -24,22 +24,10 @@ end
     m.reply "Hello, #{m.user.nick}"
   end
   
-  on :message, "what's up" do | m |
+  on :message, "what's up?" do | m |
     m.reply "Nothing whats up with you?!"
   end
-  
-  on :message, /\?/ do |m|
-  		unless @users.key? m.user.nick.to_sym
-  			m.channel.send "#{m.user.nick}: Thanks for asking a question! You can also get help here: http://timromberg.se"
-  			seen = Seen.new(m.user.nick)
-  			seen.save
-  			@users[m.user.nick.to_sym] = true
-  		end
-  		qr = Question.new(m.user.nick, m.message, Time.new)
-  		qr.save
-  		m.channel.send "#{m.user.nick}: your question has been recorded."
-   end
-  
+   
   on :channel, /^!question (.+)/ do |m, nick|
    		if nick == bot.nick
    			m.reply "That's me!"
